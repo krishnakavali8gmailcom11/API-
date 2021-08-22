@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const User = require("../models/user.model");
+const User = require("../models/users.models");
+const Unsuccess = require("../models/Unsuccess.models");
 const jwt = require("jsonwebtoken");
 const UserModel = mongoose.model('User');
 
@@ -7,21 +8,24 @@ const UserModel = mongoose.model('User');
 //API for Login User (generates JWT token)
 const loginUser = (req, res) => {
 	UserModel.findOne({ email: req.body.email, password: req.body.password }, (err, rows) => {
-		if (!err) {
+		if (rows) {
+
+			console.log("Hello",rows)
 			jwt.sign({ user: rows[0] }, "secretKey", { expiresIn: "10m" }, (err, token) => {
 				if (err) {
+					unsuccess.save(send, newDatetime())
+					console.log("user",user)
 					res.send({ success: false, data: null, message: err ? err : "Something went wrong" });
-				} else {
+				} 
+				else {
 					res.send({ success: true, data: rows, message: "Logged In Successfully!", token });
 				}
 			});
 		}
-		 else{
-		if(!email || !password){
-              res.send({success: false, data: null, message: "invalid credentials"})
-		}
+
+		 else
 		
-	}
+	
 		 {
 			res.send({ success: false, data: null, message: err ? err : "Something went wrong" });
 		}
@@ -95,7 +99,7 @@ const getAllUsers = (req, res) => {
 };
 
 const getUserById = (req, res) => {
-	UserModel.findById(req.params.id, (err, rows) => {
+	UserModel.findById(req.params.id, {email: email.req.body},(err, rows) => {
 		if (!err) {
 			res.send({ success: true, data: rows, message: "Users data retrieved Successfully!" });
 		} else {
@@ -107,9 +111,9 @@ const getUserById = (req, res) => {
 
 
 const Unsuccesful =(req, res) =>{
-	UserModel.findOne({email: req.body.email, password:req.body.password  }, (err, rows) =>{
-		if(!password){
-				res.send({success: true, data: failed.datetime.now(), message: "failed "})
+	UserModel.find({email: req.body.email }, {_id:0,date:1},(err, rows) =>{
+		if(rows){
+				res.send({success: true, data:rows, message: "failed "})
 		}
 	})
   }

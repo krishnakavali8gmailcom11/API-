@@ -11,7 +11,7 @@
 		"nodejs",
 		"backend"
 	],
-	"author": "Venkatesh Mogili",
+	"author": "Krishna Kavali",
 	"license": "ISC",
 	"dependencies": {
 		"axios": "^0.21.1",
